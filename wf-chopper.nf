@@ -1,26 +1,9 @@
 // Preprocessing transcripts
 
-process chopper_contam {
+process chopper {
     cpus params.threads
     label "process_chop"
-
-    input:
-    path fq
-    path cont_fasta
-
-    output:
-    path filt_fastq
-
-    script:
-    """
-    gunzip -c $fq | chopper --headcrop ${params.headcrop} --maxlength ${params.maxlength} --minlength ${params.minlength} --quality ${params.quality} --tailcrop ${params.tailcrop} --threads ${params.threads} --contam $cont_fasta > filt_fastq
-    """
-}
-
-process chopper_nocontam {
-    publishDir = "$projectDir/output"
-    cpus params.threads
-    label "process_chop"
+    publishDir "${projectDir}/${params.out_dir}"
 
     input:
     path fq
@@ -29,15 +12,12 @@ process chopper_nocontam {
     path filt_fastq
 
     script:
+    def contam = params.contam ? "--contam ${params.contam}" : ""
     """
-    mkdir output
-    gunzip -c $fq | chopper --headcrop ${params.headcrop} --maxlength ${params.maxlength} --minlength ${params.minlength} --quality ${params.quality} --tailcrop ${params.tailcrop} --threads ${params.threads} > filt_fastq
+    gunzip -c $fq | chopper --headcrop ${params.headcrop} --maxlength ${params.maxlength} --minlength ${params.minlength} --quality ${params.quality} --tailcrop ${params.tailcrop} --threads $task.cpus > filt_fastq
     """
 }
 
 workflow {
-    if( params.contam.isEmpty() )
-        chopper_nocontam(Channel.fromPath(params.fastq))
-    else 
-        chopper_contam(Channel.fromPath(params.fastq), Channel.fromPath(params.contam))
+    chopper(Channel.fromPath(params.fastq))
 }

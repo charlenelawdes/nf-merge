@@ -69,7 +69,7 @@ process sam_index {
     """
 }
 
-process sam_depth {
+process sam_stats {
     cpus params.t
     publishDir "${params.out_dir}"
     label "samtools"
@@ -78,12 +78,28 @@ process sam_depth {
     path sorted
 
     output:
-    path "${params.id}_sorted.bam.depth"
+    path "${params.id}_sorted.stats.txt"
 
     script:
     """
-    samtools depth -@ $task.cpus $sorted > ${params.id}_sorted.bam.depth
+    samtools stats -@ $task.cpus $sorted > ${params.id}_sorted.stats.txt
     """
+}
+
+process multiqc {
+    publishDir "${params.out_dir}" 
+    
+    input:
+    path "${params.out_dir}/*"
+
+    output:
+    path "multiqc_report.html"
+
+    script:
+    """
+    multiqc .
+    """
+
 }
 
 
@@ -94,5 +110,10 @@ workflow {
     sam_to_bam(mapping.out)
     sam_sort(sam_to_bam.out)
     sam_index(sam_sort.out)
-    sam_depth(sam_sort.out)
+    sam_stats(sam_sort.out)
+    multi_ch = Channel.empty()
+        .mix(sam_stats.out)
+        .collect()
+        .set { stat_files }
+    multiqc(stat_files)
 }

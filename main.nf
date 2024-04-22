@@ -41,12 +41,12 @@ process chopper {
     path fq
 
     output:
-    path "${params.id}_filt.fastq"
+    path "${params.sample_id}_filt.fastq"
 
     script:
     def contam = params.contam ? "--contam ${params.contam}" : ""
     """
-    gunzip -c $fq | chopper --headcrop ${params.headcrop} --maxlength ${params.maxlength} --minlength ${params.minlength} --quality ${params.quality} --tailcrop ${params.tailcrop} --threads $task.cpus | gzip > ${params.id}_filt.fastq
+    gunzip -c $fq | chopper --headcrop ${params.headcrop} --maxlength ${params.maxlength} --minlength ${params.minlength} --quality ${params.quality} --tailcrop ${params.tailcrop} --threads $task.cpus ${params.contam} | gzip > ${params.sample_id}_filt.fastq
     """
 }
 

@@ -35,18 +35,18 @@ if (params.help) {
 process chopper {
     cpus params.threads
     label "process_chop"
-    publishDir "${projectDir}/${params.out_dir}"
+    publishDir "${params.out_dir}"
 
     input:
     path fq
 
     output:
-    path "${params.sample_id}_filt.fastq"
+    path "${fq.baseName}_filt.fq.gz"
 
     script:
     def contam = params.contam ? "--contam ${params.contam}" : ""
     """
-    gunzip -c $fq | chopper --headcrop ${params.headcrop} --maxlength ${params.maxlength} --minlength ${params.minlength} --quality ${params.quality} --tailcrop ${params.tailcrop} --threads $task.cpus ${params.contam} | gzip > ${params.sample_id}_filt.fastq
+    gunzip -c $fq | chopper --headcrop ${params.headcrop} --maxlength ${params.maxlength} --minlength ${params.minlength} --quality ${params.quality} --tailcrop ${params.tailcrop} --threads $task.cpus ${params.contam} | gzip > ${fq.baseName}_filt.fq.gz
     """
 }
 

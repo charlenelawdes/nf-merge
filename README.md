@@ -1,4 +1,4 @@
-# wf-chopper
+# nf-cDNA
 
 Nexftlow workflow for processing Nanopore cDNA reads.
 

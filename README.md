@@ -7,19 +7,21 @@ Requires either [Docker], [Singularity] or [Apptainer] installed.
 Usage:
 
 ```sh
-nextflow run charlenelawdes/wf-cDNA --reads /path/to/fq.gz
+nextflow run charlenelawdes/wf-cDNA --csv /path/to/samplesheet.csv --in_dir /absolute/path/to/input
 ```
+
 Overview:
 
-## 1. Preprocessing cDNA reads
-Low quality reads are dropped according to Phred average quality score and read length using [Chopper]. Reads can also be trimmed at both ends using `--headcrop` and `--trailcrop`. 
+## 1. Concatenating reads
 
+Reads are concatenated per barcode and renamed according to sample IDs in the samplesheet.
 
+## 2. Basic stats on reads
 
-
-
+[NanoPlot] and [multiqc] are used to generate QC plots
 
 [Docker]: https://www.docker.com
 [Singularity]: https://docs.sylabs.io/guides/3.5/user-guide/introduction.html
 [Apptainer]: https://apptainer.org
-[Chopper]: https://github.com/wdecoster/chopper
+[NanoPlot] : <https://github.com/wdecoster/NanoPlot>
+[multiqc] : <https://multiqc.info>

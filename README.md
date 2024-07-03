@@ -1,6 +1,6 @@
 # nf-cDNA
 
-Nexftlow workflow for processing Nanopore cDNA reads.
+[Nextflow] workflow for processing Nanopore cDNA reads.
 
 Requires either [Docker], [Singularity] or [Apptainer] installed.
 
@@ -21,7 +21,8 @@ Reads are concatenated per barcode and renamed according to sample IDs in the sa
 [NanoPlot] and [multiqc] are used to generate QC plots
 
 [Docker]: https://www.docker.com
+[Nextflow]: https://www.nextflow.io/docs/latest/index.html
 [Singularity]: https://docs.sylabs.io/guides/3.5/user-guide/introduction.html
 [Apptainer]: https://apptainer.org
-[NanoPlot] : <https://github.com/wdecoster/NanoPlot>
-[multiqc] : <https://multiqc.info>
+[NanoPlot]: https://github.com/wdecoster/NanoPlot
+[multiqc]: https://multiqc.info

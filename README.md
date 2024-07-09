@@ -12,6 +12,9 @@ nextflow run charlenelawdes/wf-cDNA --csv /path/to/samplesheet.csv --in_dir /abs
 
 Overview:
 
+You have to provide two inputs: a CSV file containing sample names and corresponding barcodes, and the absolute path to the directory containing fastq files.
+The CSV file has to have two columns: one named sample for the sample ID, and the second one named barcode for barcode ID.
+
 ## 1. Concatenating reads
 
 Reads are concatenated per barcode and renamed according to sample IDs in the samplesheet.

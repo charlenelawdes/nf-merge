@@ -12,6 +12,7 @@ def helpMessage() {
         
          Optional arguments:
          --out_dir                      Output directory
+         --model                        Model used for basecalling, will determine which Q score to filter reads with while running Nanoplot. Either sup for --minqual 10, hac for --minqual 9 or set to false for no filter [default: sup].
          -profiles                      Use Docker, Singularity or Apptainer to run the workflow [default: Docker]
          --help                         This usage statement
         """

@@ -23,7 +23,7 @@ if (params.help) {
     exit 0
 }
 
-include { merge_samples } from "./subworkflows/merge_fastq"
+include { merge_cDNA } from "./subworkflows/ingress"
 include { nanoplot } from "./subworkflows/nanoplot"
 include { multiqc } from "./subworkflows/multiqc"
 
@@ -34,9 +34,9 @@ workflow {
             tuple(row.sample, row.barcode)
         }
 
-    merge_samples(samples)
+    merge_cDNA(samples)
 
-    nanoplot(merge_samples.out)
+    nanoplot(merge_cDNA.out)
     
     multi_ch = Channel.empty()
         .mix(nanoplot.out)

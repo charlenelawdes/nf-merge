@@ -1,6 +1,6 @@
-# nf-cDNA
+# nf-merge
 
-[Nextflow] workflow for processing Nanopore cDNA reads.
+[Nextflow] workflow for merging fastq reads of samples according to assigned barcode.
 
 Requires either [Docker], [Singularity] or [Apptainer] installed.
 

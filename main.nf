@@ -23,7 +23,7 @@ if (params.help) {
     exit 0
 }
 
-include { merge_cDNA } from "./subworkflows/ingress"
+include { merge_barcode } from "./subworkflows/ingress"
 include { nanoplot } from "./subworkflows/nanoplot"
 include { multiqc } from "./subworkflows/multiqc"
 
@@ -34,7 +34,7 @@ workflow {
             tuple(row.sample, row.barcode)
         }
 
-    merge_cDNA(samples)
+    merge_barcode(samples)
 
     nanoplot(merge_cDNA.out)
     

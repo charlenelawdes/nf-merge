@@ -36,7 +36,7 @@ workflow {
 
     merge_barcode(samples)
 
-    nanoplot(merge_cDNA.out)
+    nanoplot(merge_barcode.out)
     
     multi_ch = Channel.empty()
         .mix(nanoplot.out)

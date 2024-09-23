@@ -23,9 +23,9 @@ if (params.help) {
     exit 0
 }
 
-include { merge_barcode } from "./subworkflows/ingress"
-include { nanoplot } from "./subworkflows/nanoplot"
-include { multiqc } from "./subworkflows/multiqc"
+include { merge_barcode } from "./modules/ingress"
+include { nanoplot } from "./modules/nanoplot"
+include { multiqc } from "./modules/multiqc"
 
 workflow {
     samples=Channel.fromPath(params.csv)

@@ -23,23 +23,28 @@ if (params.help) {
     exit 0
 }
 
-include { merge_barcode } from "./modules/ingress"
-include { nanoplot } from "./modules/nanoplot"
-include { multiqc } from "./modules/multiqc"
+include { MERGE_BAM } from "./subworkflows/mergeBam"
+include { MERGE_BARCODES } from "./subworkflows/mergeBarcodes"
 
 workflow {
-    samples=Channel.fromPath(params.csv)
-        .splitCsv(header: true)
-        .map { row -> 
-            tuple(row.sample, row.barcode)
-        }
 
-    merge_barcode(samples)
+    if (params.bam == null) {
+        samples=Channel.fromPath(params.csv)
+            .splitCsv(header: true)
+            .map { row -> 
+                tuple(row.sample, row.barcode)
+            }
+        MERGE_BARCODES(samples)
+        
+    } else {
+        def counter = 0
 
-    nanoplot(merge_barcode.out)
-    
-    multi_ch = Channel.empty()
-        .mix(nanoplot.out)
-        .collect()
-    multiqc(multi_ch)
+        bams = Channel.fromPath(params.bam)
+            .collate(20)
+            .map { files -> 
+                counter++
+                return ["chunk${counter}", files]
+            }
+        MERGE_BAM(bams)
+    }
 }

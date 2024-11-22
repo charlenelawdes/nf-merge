@@ -7,7 +7,7 @@ Requires either [Docker], [Singularity] or [Apptainer] installed.
 Usage:
 
 ```sh
-nextflow run charlenelawdes/wf-cDNA --csv /path/to/samplesheet.csv --in_dir /absolute/path/to/input
+nextflow run charlenelawdes/nf-merge --csv /path/to/samplesheet.csv --in_dir /absolute/path/to/input
 ```
 
 Overview:

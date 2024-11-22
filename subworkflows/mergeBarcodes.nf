@@ -15,4 +15,9 @@ workflow MERGE_BARCODES {
         .mix(nanoplot.out)
         .collect()
     multiqc(multi_ch)
+
+    emit:
+    reads = merge_barcode.out
+    nanoplot_out = nanoplot.out
+    multi_rep = multiqc.out
 }

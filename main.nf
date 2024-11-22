@@ -25,7 +25,6 @@ if (params.help) {
 
 include { MERGE_BAM } from "./subworkflows/mergeBam"
 include { MERGE_BARCODES } from "./subworkflows/mergeBarcodes"
-include { publish_artifact } from "./modules/ingress"
 
 workflow {
 
@@ -36,7 +35,6 @@ workflow {
                 tuple(row.sample, row.barcode)
             }
         MERGE_BARCODES(samples)
-        publish_artifact(MERGE_BARCODES.out.reads)
         
     } else {
         def counter = 0

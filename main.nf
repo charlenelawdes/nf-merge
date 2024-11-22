@@ -29,12 +29,19 @@ include { MERGE_BARCODES } from "./subworkflows/mergeBarcodes"
 workflow {
 
     if (params.bam == null) {
+        in_ch = Channel.fromPath("${params.in_dir}/**")
+            .map { file -> [file.parent.name, file] } // Group by subdirectory name
+            .groupTuple()// Group by subdirectory name
+
         samples=Channel.fromPath(params.csv)
             .splitCsv(header: true)
             .map { row -> 
-                tuple(row.sample, row.barcode)
+                tuple(row.barcode.toString().trim(), row.sample)
             }
-        MERGE_BARCODES(samples)
+        samples_dir = samples
+            .join(in_ch, remainder:true)
+
+        MERGE_BARCODES(samples_dir)
         
     } else {
         def counter = 0

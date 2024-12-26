@@ -39,7 +39,7 @@ workflow {
                 tuple(row.barcode.toString().trim(), row.sample)
             }
         samples_dir = samples
-            .join(in_ch, remainder:true)
+            .join(in_ch)
 
         MERGE_BARCODES(samples_dir)
         
